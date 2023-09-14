@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram WebApps API</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         /* Общий стиль страницы HTML */
         html, body {
@@ -66,15 +71,28 @@
             background-color: #167BBF;
         }
     </style>
-    <title>Выбор персонажа</title>
 </head>
 <body>
     <div class="container">
         <div class="mario-icon"></div>
-        <button class="mario-button">Mario</button>
+        <button id="mario_button" class="mario-button">Mario</button>
 
         <div class="albert-icon"></div>
-        <button class="albert-button">Albert</button>
+        <button id="albert_button" class="albert-button">Albert</button>
     </div>
 </body>
+<script>
+   let tg = window.Telegram.WebApp;
+   let mario = document.getElementById("mario_button")
+   let albert = document.getElementById("albert_button")
+
+   mario.addEventListener("click", () =>{
+       tg.close();
+   });
+
+   albert.addEventListener("click", () =>{
+       tg.close();
+   });
+
+</script>
 </html>
