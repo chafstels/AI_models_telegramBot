@@ -37,7 +37,10 @@ language_keyboard.add(
 webapp_keyboard = types.ReplyKeyboardMarkup()
 webapp_keyboard.add(
     types.KeyboardButton(
-        text="Выбор персонажа", web_app=WebAppInfo(url="https://beta.character.ai")
+        text="Выбор персонажа",
+        web_app=WebAppInfo(
+            url="https://github.com/chafstels/AI_models_telegramBot/blob/main/demo_model.html"
+        ),
     )
 )
 
