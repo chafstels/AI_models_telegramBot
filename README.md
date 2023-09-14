@@ -8,7 +8,7 @@ To use the ChatGPT bot, you will need to have a Telegram account and an OpenAI A
 
 Once you have your API key, you can download the source code for the bot and install the required dependencies using the following commands:
 ```sh
-git clone https://github.com/Tr3bleee/ChatGPT.git
+git clone https://github.com/chafstels/AI_models_telegramBot.git
 
 cd ChatGPT
 
