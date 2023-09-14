@@ -1,15 +1,10 @@
-> **Note**
-> Added API-GPT-4 support. You must register with the waitlist before using it - https://openai.com/waitlist/gpt-4-api. To use the bot without using gpt-4, change gpt-4 in the file to gpt-3.5-turbo
 
-# ChatGPT: Telegram Bot powered by OpenAI GPT-4
+# ChatGPT: Telegram Bot powered by OpenAI GPT-3.5
 ChatGPT is a Telegram bot that utilizes OpenAI's GPT-4 language model to generate human-like responses to user messages. The bot can be used for casual conversations, brainstorming ideas, or even for educational purposes.
 
-# Bot
-The bot offline
-<h3 align="left">Telegram:</h3> <a href="https://t.me/ChatGPTtesting_robot"><img src="https://img.shields.io/website?color=9400d3&down_message=Tr3ble_AI&label=Telegram&logo=telegram&style=for-the-badge&up_message=ChatGPTtesting_robot&url=https%3A%2F%2Ft.me%2https://t.me/ChatGPTtesting_robot"></a>
 
 # Installation
-To use the ChatGPT bot, you will need to have a Telegram account and an OpenAI API key. You can obtain an API key by signing up for OpenAI's GPT-4 program.
+To use the ChatGPT bot, you will need to have a Telegram account and an OpenAI API key. You can obtain an API key by signing up for OpenAI's GPT-3.5 program.
 
 Once you have your API key, you can download the source code for the bot and install the required dependencies using the following commands:
 ```sh
@@ -41,12 +36,3 @@ The bot currently supports the following commands:
 
 /help: Show commands
 
-# Interface 
-![image](https://user-images.githubusercontent.com/69369034/225102009-ede09ac4-1c1e-4ac5-9cef-e3da6bfcf2d9.png)![image](https://user-images.githubusercontent.com/69369034/229245783-e8c48a79-a294-4f62-af28-69474842a270.png)
-
-
-# Contributing
-If you would like to contribute to the ChatGPT project, please submit a pull request with your proposed changes. We welcome contributions of all kinds, including bug fixes, new features, and improvements to the documentation.
-
-# License
-The ChatGPT project is licensed under the MIT License. See the LICENSE file for more information.

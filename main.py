@@ -1,17 +1,20 @@
 import logging
 import time
+from decouple import config
+import aiohttp
 from aiogram import Bot, Dispatcher, executor, types
-from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-import openai
-from config import bot_token, api_key
+from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
+
+from Amplitude import send_registration_event_to_amplitude
+
+from helper_db import save_user_data, create_users_table, user_exists
 from message_templates import message_templates
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token=bot_token)
+bot = Bot(token=config("BOT_TOKEN"))
 dp = Dispatcher(bot)
 
-openai.api_key = api_key
 
 messages = {}
 user_languages = {}  # Keep track of user's current language
@@ -29,6 +32,13 @@ language_keyboard = InlineKeyboardMarkup(row_width=2)
 language_keyboard.add(
     InlineKeyboardButton("English🇬🇧", callback_data="en"),
     InlineKeyboardButton("Русский🇷🇺", callback_data="ru"),
+)
+# Create a keyboard object with a button
+webapp_keyboard = types.ReplyKeyboardMarkup()
+webapp_keyboard.add(
+    types.KeyboardButton(
+        text="Выбор персонажа", web_app=WebAppInfo(url="https://beta.character.ai")
+    )
 )
 
 
@@ -53,28 +63,31 @@ async def process_callback(callback_query: types.CallbackQuery):
     await bot.answer_callback_query(callback_query.id)
 
 
-async def generate_image(prompt):
-    response = openai.Image.create(
-        prompt=prompt,
-        n=1,
-        size="512x512",
-        response_format="url",
-    )
-
-    return response["data"][0]["url"]
-
-
 @dp.message_handler(commands=["start"])
 async def start_cmd(message: types.Message):
     try:
         username = message.from_user.username
+        user_id = message.from_user.id
         messages[username] = []
         language = user_languages.get(
             message.from_user.id, "en"
         )  # Get the selected language
         await message.reply(
-            message_templates[language]["start"]
+            message_templates[language]["start"],
+            reply_markup=webapp_keyboard,
         )  # Retrieve the correct message based on the language
+
+        # Отправляем событие регистрации в Amplitude для нового пользователя
+        send_registration_event_to_amplitude(message.from_user.id, "Sign up")
+
+        # Сохраняем данные о пользователе в базе данных
+        if not user_exists(user_id):
+            save_user_data(
+                user_id=message.from_user.id,
+                username=message.from_user.username,
+                name=message.from_user.first_name,
+                surname=message.from_user.last_name,
+            )
     except Exception as e:
         logging.error(f"Error in start_cmd: {e}")
 
@@ -88,25 +101,6 @@ async def new_topic_cmd(message: types.Message):
         await message.reply(message_templates[language]["newtopic"])
     except Exception as e:
         logging.error(f"Error in new_topic_cmd: {e}")
-
-
-@dp.message_handler(commands=["image"])
-async def send_image(message: types.Message):
-    try:
-        description = message.text.replace("/image", "").strip()
-        language = user_languages.get(message.from_user.id, "en")
-        if not description:
-            await message.reply(message_templates[language]["image_prompt"])
-            return
-    except Exception as e:
-        logging.error(f"Error in send_image: {e}")
-    try:
-        description = message.text.replace("/image", "").strip()
-        image_url = await generate_image(description)
-        await bot.send_photo(chat_id=message.chat.id, photo=image_url)
-    except Exception as e:
-        language = user_languages.get(message.from_user.id, "en")
-        await message.reply(message_templates[language]["image_error"] + str(e))
 
 
 @dp.message_handler(commands=["help"])
@@ -151,23 +145,26 @@ async def echo_msg(message: types.Message):
 
             await bot.send_chat_action(chat_id=message.chat.id, action="typing")
 
-            completion = await openai.ChatCompletion.acreate(
-                model="gpt-4",
-                messages=messages[userid],
-                max_tokens=2500,
-                temperature=0.7,
-                frequency_penalty=0,
-                presence_penalty=0,
-                user=userid,
-            )
-            chatgpt_response = completion.choices[0]["message"]
+            # Сформируйте данные для отправки на ваш ендпоинт
+            messages_to_send = {
+                "model": "gpt-3.5-turbo",
+                "messages": messages[userid],
+            }
 
-            messages[userid].append(
-                {"role": "assistant", "content": chatgpt_response["content"]}
-            )
-            logging.info(f'ChatGPT response: {chatgpt_response["content"]}')
+            headers = {"accept": "application/json", "Content-Type": "application/json"}
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    config("ENDPOINT"),
+                    headers=headers,
+                    json=messages_to_send,
+                ) as response:
+                    response_data = await response.json()
+                    chatgpt_response = response_data["choices"][0]["message"]["content"]
 
-            await message.reply(chatgpt_response["content"])
+            messages[userid].append({"role": "assistant", "content": chatgpt_response})
+            logging.info(f"ChatGPT response: {chatgpt_response}")
+
+            await message.reply(chatgpt_response)
 
             await bot.delete_message(
                 chat_id=processing_message.chat.id,
@@ -183,4 +180,5 @@ async def echo_msg(message: types.Message):
 
 
 if __name__ == "__main__":
+    create_users_table()
     executor.start_polling(dp)
