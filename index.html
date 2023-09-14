@@ -27,10 +27,12 @@
 
         /* Стиль иконки Mario */
         .mario-icon {
-            width: 392px;
-            height: 392px;
-            background: transparent url('img/Mario.jpg') center center no-repeat padding-box;
-            box-shadow: 0px 15px 15px #00000029;
+            width: 30%;
+            height: 30%;
+            padding-top: 25%;
+            background-size: cover ;
+            background: transparent url('img/Mario.jpg') center content-box no-repeat padding-box;
+            box-shadow: 0 15px 15px #00000029;
             border: 3px solid #27A7E7;
             border-radius: 50px;
             opacity: 1;
@@ -38,10 +40,12 @@
 
         /* Стиль иконки Albert */
         .albert-icon {
-            width: 392px;
-            height: 392px;
-            background: transparent url('img/Albert.jpg') center center no-repeat padding-box;
-            box-shadow: 0px 15px 15px #00000029;
+            width: 30%;
+            height: 30%;
+            padding-top: 25%;
+            background-size: cover;
+            background: transparent url('img/Albert.jpg') center content-box no-repeat padding-box;
+            box-shadow: 0 15px 15px #00000029;
             border: 3px solid #27A7E7;
             border-radius: 50px;
             opacity: 1;
@@ -52,7 +56,7 @@
             margin-top: 5px;
             margin-bottom: 20px;
             width: 184px;
-            height: 72px; /* Изменена высота кнопки для более креативного вида */
+            height: 72px;
             text-align: center;
             font-family: "Arial", sans-serif; /* Установлен шрифт */
             font-weight: bold;
@@ -60,10 +64,10 @@
             color: #fff;
             background-color: #27A7E7;
             border: none;
-            border-radius: 20px; /* Изменена форма кнопки на более круглую */
-            box-shadow: 0px 5px 5px #00000029;
+            border-radius: 20px;
+            box-shadow: 0 5px 5px #00000029;
             cursor: pointer;
-            transition: background-color 0.3s ease; /* Плавное изменение цвета при наведении */
+            transition: background-color 0.3s ease;
         }
 
         /* Изменение цвета кнопки при наведении */
@@ -85,12 +89,15 @@
    let tg = window.Telegram.WebApp;
    let mario = document.getElementById("mario_button")
    let albert = document.getElementById("albert_button")
+   tg.expand();
 
    mario.addEventListener("click", () =>{
+       tg.sendData("mario_gpt");
        tg.close();
    });
 
    albert.addEventListener("click", () =>{
+       tg.sendData("albert_gpt");
        tg.close();
    });
 
