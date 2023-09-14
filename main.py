@@ -17,6 +17,7 @@ dp = Dispatcher(bot)
 
 
 messages = {}
+gpt = ""
 user_languages = {}  # Keep track of user's current language
 
 
@@ -44,7 +45,7 @@ webapp_keyboard.add(
 
 
 async def send_message(user_id, message_key):
-    language = user_languages.get(user_id, "en")  # Default to English
+    language = user_languages.get(user_id, "ru")  # Default to English
     message_template = message_templates[language][message_key]
     await bot.send_message(user_id, message_template)
 
@@ -53,7 +54,7 @@ async def send_message(user_id, message_key):
 async def language_cmd(message: types.Message):
     await bot.send_message(
         message.chat.id,
-        message_templates["en"]["language_selection"],
+        message_templates["ru"]["language_selection"],
         reply_markup=language_keyboard,
     )
 
@@ -71,7 +72,7 @@ async def start_cmd(message: types.Message):
         user_id = message.from_user.id
         messages[username] = []
         language = user_languages.get(
-            message.from_user.id, "en"
+            message.from_user.id, "ru"
         )  # Get the selected language
         await message.reply(
             message_templates[language]["start"],
@@ -98,7 +99,7 @@ async def new_topic_cmd(message: types.Message):
     try:
         userid = message.from_user.id
         messages[str(userid)] = []
-        language = user_languages.get(message.from_user.id, "en")
+        language = user_languages.get(message.from_user.id, "ru")
         await message.reply(message_templates[language]["newtopic"])
     except Exception as e:
         logging.error(f"Error in new_topic_cmd: {e}")
@@ -106,14 +107,26 @@ async def new_topic_cmd(message: types.Message):
 
 @dp.message_handler(commands=["help"])
 async def help_cmd(message: types.Message):
-    language = user_languages.get(message.from_user.id, "en")
+    language = user_languages.get(message.from_user.id, "ru")
     await message.reply(message_templates[language]["help"])
 
 
 @dp.message_handler(commands=["about"])
 async def about_cmd(message: types.Message):
-    language = user_languages.get(message.from_user.id, "en")
+    language = user_languages.get(message.from_user.id, "ru")
     await message.reply(message_templates[language]["about"])
+
+
+@dp.message_handler(content_types=["web_app_data"])
+async def web_app(message: types.Message):
+    global gpt
+    gpt = message.web_app_data.data
+    if gpt == "mario_gpt":
+        event = "Pick Mario"
+    else:
+        event = "Pick Albert"
+    send_registration_event_to_amplitude(message.from_user.id, event)
+    await message.answer(message.web_app_data.data)
 
 
 @dp.message_handler()
@@ -139,7 +152,7 @@ async def echo_msg(message: types.Message):
         )
 
         if should_respond:
-            language = user_languages.get(message.from_user.id, "en")
+            language = user_languages.get(message.from_user.id, "ru")
             processing_message = await message.reply(
                 message_templates[language]["processing"]
             )
@@ -150,6 +163,7 @@ async def echo_msg(message: types.Message):
             messages_to_send = {
                 "model": "gpt-3.5-turbo",
                 "messages": messages[userid],
+                "prompt": message_templates[language]["mario_gpt"],
             }
 
             headers = {"accept": "application/json", "Content-Type": "application/json"}
@@ -174,7 +188,7 @@ async def echo_msg(message: types.Message):
 
     except Exception as ex:
         if ex == "context_length_exceeded":
-            language = user_languages.get(message.from_user.id, "en")
+            language = user_languages.get(message.from_user.id, "ru")
             await message.reply(message_templates[language]["error"])
             await new_topic_cmd(message)
             await echo_msg(message)
