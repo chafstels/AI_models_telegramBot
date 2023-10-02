@@ -28,13 +28,14 @@
 
         /* Стиль иконки персонажа */
         .character-icon {
-            width: 250px;
-            height: 200px;
+            width: 150px;
+            height: 100px;
             margin-top: 25px;
-            margin-left: 10px;
+            margin-left: 5px;
             padding-top: 14%;
-            background-size: cover;
-            background: transparent center content-box no-repeat padding-box;
+            background-size: cover; /* Изменено на "cover" */
+            background-position: center; /* Добавлено для центрирования */
+            background-repeat: no-repeat; /* Избегаем повторения */
             box-shadow: 0 15px 15px #00000029;
             border: 3px solid #27A7E7;
             border-radius: 50px;
@@ -45,8 +46,8 @@
         .character-button {
             margin-top: 5px;
             margin-bottom: 20px;
-            width: 184px;
-            height: 72px;
+            width: 144px;
+            height: 32px;
             text-align: center;
             font-family: "Arial", sans-serif; /* Установлен шрифт */
             font-weight: bold;
