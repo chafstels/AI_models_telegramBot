@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram WebApps API</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        /* Общий стиль страницы HTML */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #F5F5F5;
+        }
+
+        /* Стиль контейнера */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        /* Стиль иконки Mario */
+        .mario-icon {
+            width: 250px;
+            height: 250px;
+            top: 250px;
+            left: 250px;
+            margin-top: 25px;
+            padding-top: 14%;
+            background-size: cover ;
+            background: transparent url('img/Mario.jpg') center content-box no-repeat padding-box;
+            box-shadow: 0 15px 15px #00000029;
+            border: 3px solid #27A7E7;
+            border-radius: 50px;
+            opacity: 1;
+        }
+
+        /* Стиль иконки Albert */
+        .albert-icon {
+            width: 250px;
+            height: 250px;
+            top: 250px;
+            left: 250px;
+            margin-top: 25px;
+            padding-top: 14%;
+            background-size: cover;
+            background: transparent url('img/Albert.jpg') center content-box no-repeat padding-box;
+            box-shadow: 0 15px 15px #00000029;
+            border: 3px solid #27A7E7;
+            border-radius: 50px;
+            opacity: 1;
+        }
+
+        /* Стиль кнопки Mario и Albert */
+        .mario-button, .albert-button {
+            margin-top: 5px;
+            margin-bottom: 20px;
+            width: 184px;
+            height: 72px;
+            text-align: center;
+            font-family: "Arial", sans-serif; /* Установлен шрифт */
+            font-weight: bold;
+            font-size: 24px;
+            color: #fff;
+            background-color: #27A7E7;
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 5px 5px #00000029;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Изменение цвета кнопки при наведении */
+        .mario-button:hover, .albert-button:hover {
+            background-color: #167BBF;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="mario-icon"></div>
+        <button id="mario_button" class="mario-button">Mario</button>
+
+        <div class="albert-icon"></div>
+        <button id="albert_button" class="albert-button">Albert</button>
+    </div>
+</body>
+<script>
+   let tg = window.Telegram.WebApp;
+   let mario = document.getElementById("mario_button")
+   let albert = document.getElementById("albert_button")
+   tg.expand();
+
+   mario.addEventListener("click", () =>{
+       tg.sendData("mario_gpt");
+       tg.close();
+   });
+
+   albert.addEventListener("click", () =>{
+       tg.sendData("albert_gpt");
+       tg.close();
+   });
+
+</script>
+</html>
