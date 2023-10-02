@@ -19,17 +19,19 @@
         /* Стиль контейнера */
         .container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Изменяем направление на горизонтальное */
             align-items: center;
             justify-content: center;
             min-height: 100vh;
+            flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
         }
 
         /* Стиль иконки персонажа */
         .character-icon {
             width: 250px;
-            height: 50px;
+            height: 200px;
             margin-top: 25px;
+            margin-left: 10px;
             padding-top: 14%;
             background-size: cover;
             background: transparent center content-box no-repeat padding-box;
@@ -62,36 +64,68 @@
         .character-button:hover {
             background-color: #167BBF;
         }
+
+        .pair-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="character_button" class="character-button">Мемы</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="spy_button" class="character-button">Шпион</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="pirate_button" class="character-button">Пират</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="chef_button" class="character-button">Шеф</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="cosmonaut_button" class="character-button">Космонавт</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="boxer_button" class="character-button">Боксер</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="sheriff_button" class="character-button">Шериф</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="king_button" class="character-button">Король</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="egypt_button" class="character-button">Египет</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="hacker_button" class="character-button">Хакер</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="racer_button" class="character-button">Гонщик</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="mafia_boss_button" class="character-button">Босс мафии</button>
-        <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-        <button id="footballer_button" class="character-button">Футболист</button>
+         <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="character_button" class="character-button">Мемы</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="spy_button" class="character-button">Шпион</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="pirate_button" class="character-button">Пират</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="chef_button" class="character-button">Шеф</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="cosmonaut_button" class="character-button">Космонавт</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="boxer_button" class="character-button">Боксер</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="sheriff_button" class="character-button">Шериф</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="king_button" class="character-button">Король</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="egypt_button" class="character-button">Египет</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="hacker_button" class="character-button">Хакер</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="racer_button" class="character-button">Гонщик</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="mafia_boss_button" class="character-button">Босс мафии</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="footballer_button" class="character-button">Футболист</button>
+        </div>
     </div>
 </body>
 <script>
