@@ -33,176 +33,102 @@
             margin-top: 25px;
             margin-left: 8px;
             padding-top: 14%;
-            background-size: cover; /* Изменено на "cover" */
-            background-position: center; /* Добавлено для центрирования */
-            background-repeat: no-repeat; /* Избегаем повторения */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             box-shadow: 0 15px 15px #00000029;
             border: 1px solid #27A7E7;
             border-radius: 15px;
             opacity: 1;
+            backdrop-filter: blur(50px);
+            cursor: pointer; /* Добавляем указатель при наведении для обозначения кликабельности */
         }
 
-        /* Стиль кнопки персонажа */
-        .character-button {
-            margin-top: 5px;
-            margin-left: 5px;
-            width: 150px;
-            height: 32px;
+        /* Стиль текста персонажа */
+        .character-text {
             text-align: center;
-            font-family: "SF Pro", sans-serif;
-            font-weight: bold;
-            font-size: 90%;
+            font: normal normal bold 27px/38px SF Pro;
+            letter-spacing: 0px;
             color: #27A7E7;
-            background-color:  #fff;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 5px 5px #00000029;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            text-shadow: 0px 5px 5px #00000029;
+            opacity: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 100%; /* Максимальная ширина текста */
+            height: auto; /* Высота автоматически подстраивается под содержимое */
+            background: transparent; /* Убираем фон */
+            border: none; /* Убираем рамку */
+            padding: 0; /* Убираем отступы внутри элемента */ /* Убираем отступы вокруг элемента */
+            line-height: 1;
+            margin-left: 8px;
         }
 
-        /* Изменение цвета кнопки при наведении */
-        .character-button:hover {
-            background-color: #167BBF;
-        }
-
-        .pair-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
     </style>
 </head>
 <body>
     <div class="container">
          <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-            <button id="character_button" class="character-button">Мемы</button>
+            <div class="character-icon" style="background-image: url('img/mario.jpg');" onclick="handleCharacterClick('memes_gpt');"></div>
+            <div class="character-text">Мемы</div>
         </div>
         <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/spy.jpg');"></div>
-            <button id="spy_button" class="character-button">Шпион</button>
+            <div class="character-icon" style="background-image: url('img/spy.jpg');" onclick="handleCharacterClick('spy_gpt');"></div>
+            <div class="character-text">Шпион</div>
         </div>
         <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/pirate.jpg');"></div>
-            <button id="pirate_button" class="character-button">Пират</button>
+            <div class="character-icon" style="background-image: url('img/pirate.jpg');" onclick="handleCharacterClick('pirate_gpt');"></div>
+            <div class="character-text">Пират</div>
         </div>
         <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/chef.jpg');"></div>
-            <button id="chef_button" class="character-button">Шеф</button>
+            <div class="character-icon" style="background-image: url('img/chef.jpg');" onclick="handleCharacterClick('chef_gpt');"></div>
+            <div class="character-text">Шеф</div>
         </div>
         <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-            <button id="cosmonaut_button" class="character-button">Космонавт</button>
+            <div class="character-icon" style="background-image: url('img/cosmonaut.jpg');" onclick="handleCharacterClick('cosmonaut_gpt');"></div>
+            <div class="character-text">Космонавт</div>
         </div>
         <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/boxer.jpg');"></div>
-            <button id="boxer_button" class="character-button">Боксер</button>
+            <div class="character-icon" style="background-image: url('img/boxer.jpg');" onclick="handleCharacterClick('boxer_gpt');"></div>
+            <div class="character-text">Боксер</div>
         </div>
         <div class="pair-container">
-            <div class="character-icon" style="background-image: url('img/sheriff.jpg');"></div>
-            <button id="sheriff_button" class="character-button">Шериф</button>
+            <div class="character-icon" style="background-image: url('img/sheriff.jpg');" onclick="handleCharacterClick('sheriff_gpt');"></div>
+            <div class="character-text">Шериф</div>
         </div>
         <div class="pair-container">
-             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-             <button id="king_button" class="character-button">Король</button>
+             <div class="character-icon" style="background-image: url('img/king.jpg');" onclick="handleCharacterClick('king_gpt');"></div>
+             <div class="character-text">Король</div>
         </div>
         <div class="pair-container">
-             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-             <button id="egypt_button" class="character-button">Египет</button>
+             <div class="character-icon" style="background-image: url('img/egypt.jpg');" onclick="handleCharacterClick('egypt_gpt');"></div>
+             <div class="character-text">Египет</div>
         </div>
         <div class="pair-container">
-             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-             <button id="hacker_button" class="character-button">Хакер</button>
+             <div class="character-icon" style="background-image: url('img/hacker.jpg');" onclick="handleCharacterClick('hacker_gpt');"></div>
+             <div class="character-text">Хакер</div>
         </div>
         <div class="pair-container">
-             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-             <button id="racer_button" class="character-button">Гонщик</button>
+             <div class="character-icon" style="background-image: url('img/racer.jpg');" onclick="handleCharacterClick('racer_gpt');"></div>
+             <div class="character-text">Гонщик</div>
         </div>
         <div class="pair-container">
-             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-             <button id="mafia_boss_button" class="character-button">Босс мафии</button>
+             <div class="character-icon" style="background-image: url('img/mafia_boss.jpg');" onclick="handleCharacterClick('mafia_boss_gpt');"></div>
+             <div class="character-text">Босс мафии</div>
         </div>
         <div class="pair-container">
-             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
-             <button id="footballer_button" class="character-button">Футболист</button>
+             <div class="character-icon" style="background-image: url('img/footballer.jpg');" onclick="handleCharacterClick('footballer_gpt');"></div>
+             <div class="character-text">Футболист</div>
         </div>
     </div>
 </body>
 <script>
 
 let tg = window.Telegram.WebApp;
-   let characterButton = document.getElementById("character_button");
-   tg.expand();
 
-   characterButton.addEventListener("click", () =>{
-       tg.sendData("memes_gpt");
-       tg.close();
-   });
+function handleCharacterClick(character) {
+    tg.sendData(character);
+    tg.close();
+}
 
-   // Добавим обработчики событий для остальных персонажей
-   document.getElementById("spy_button").addEventListener("click", () =>{
-       tg.sendData("spy_gpt");
-       tg.close();
-   });
-
-   document.getElementById("pirate_button").addEventListener("click", () =>{
-       tg.sendData("pirate_gpt");
-       tg.close();
-   });
-
-   document.getElementById("chef_button").addEventListener("click", () =>{
-       tg.sendData("chef_gpt");
-       tg.close();
-   });
-
-   document.getElementById("cosmonaut_button").addEventListener("click", () =>{
-       tg.sendData("cosmonaut_gpt");
-       tg.close();
-   });
-
-   document.getElementById("boxer_button").addEventListener("click", () =>{
-       tg.sendData("boxer_gpt");
-       tg.close();
-   });
-
-   document.getElementById("sheriff_button").addEventListener("click", () =>{
-       tg.sendData("sheriff_gpt");
-       tg.close();
-   });
-
-   document.getElementById("king_button").addEventListener("click", () =>{
-       tg.sendData("king_gpt");
-       tg.close();
-   });
-
-   document.getElementById("egypt_button").addEventListener("click", () =>{
-       tg.sendData("egypt_gpt");
-       tg.close();
-   });
-
-   document.getElementById("hacker_button").addEventListener("click", () =>{
-       tg.sendData("hacker_gpt");
-       tg.close();
-   });
-
-   document.getElementById("racer_button").addEventListener("click", () =>{
-       tg.sendData("racer_gpt");
-       tg.close();
-   });
-
-   document.getElementById("mafia_boss_button").addEventListener("click", () =>{
-       tg.sendData("mafia_boss_gpt");
-       tg.close();
-   });
-
-   document.getElementById("footballer_button").addEventListener("click", () =>{
-       tg.sendData("footballer_gpt");
-       tg.close();
-   });
 </script>
 </html>
-
-
-
-

@@ -19,56 +19,42 @@
         /* Стиль контейнера */
         .container {
             display: flex;
-            flex-direction: column;
+            flex-direction: row; /* Изменяем направление на горизонтальное */
             align-items: center;
             justify-content: center;
-            height: 100%;
+            min-height: 100vh;
+            flex-wrap: wrap; /* Разрешаем перенос элементов на новую строку */
         }
 
-        /* Стиль иконки Mario */
-        .mario-icon {
-            width: 250px;
-            height: 250px;
-            top: 250px;
-            left: 250px;
+        /* Стиль иконки персонажа */
+        .character-icon {
+            width: 150px;
+            height: 100px;
             margin-top: 25px;
-            padding-top: 14%;
-            background-size: cover ;
-            background: transparent url('img/Mario.jpg') center content-box no-repeat padding-box;
-            box-shadow: 0 15px 15px #00000029;
-            border: 3px solid #27A7E7;
-            border-radius: 50px;
-            opacity: 1;
-        }
-
-        /* Стиль иконки Albert */
-        .albert-icon {
-            width: 250px;
-            height: 250px;
-            top: 250px;
-            left: 250px;
-            margin-top: 25px;
+            margin-left: 8px;
             padding-top: 14%;
             background-size: cover;
-            background: transparent url('img/Albert.jpg') center content-box no-repeat padding-box;
+            background-position: center;
+            background-repeat: no-repeat;
             box-shadow: 0 15px 15px #00000029;
             border: 3px solid #27A7E7;
-            border-radius: 50px;
+            border-radius: 15px;
             opacity: 1;
+            backdrop-filter: blur(50px);
         }
 
-        /* Стиль кнопки Mario и Albert */
-        .mario-button, .albert-button {
+        /* Стиль кнопки персонажа */
+        .character-button {
             margin-top: 5px;
-            margin-bottom: 20px;
-            width: 184px;
-            height: 72px;
+            margin-left: 5px;
+            width: 150px;
+            height: 32px;
             text-align: center;
-            font-family: "Arial", sans-serif; /* Установлен шрифт */
+            font-family: "SF Pro", sans-serif;
             font-weight: bold;
-            font-size: 24px;
-            color: #fff;
-            background-color: #27A7E7;
+            font-size: 90%;
+            color: #27A7E7;
+            background-color:  #fff;
             border: none;
             border-radius: 20px;
             box-shadow: 0 5px 5px #00000029;
@@ -77,35 +63,147 @@
         }
 
         /* Изменение цвета кнопки при наведении */
-        .mario-button:hover, .albert-button:hover {
+        .character-button:hover {
             background-color: #167BBF;
+        }
+
+        .pair-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="mario-icon"></div>
-        <button id="mario_button" class="mario-button">Mario</button>
-
-        <div class="albert-icon"></div>
-        <button id="albert_button" class="albert-button">Albert</button>
+         <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="character_button" class="character-button">Мемы</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/spy.jpg');"></div>
+            <button id="spy_button" class="character-button">Шпион</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/pirate.jpg');"></div>
+            <button id="pirate_button" class="character-button">Пират</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/chef.jpg');"></div>
+            <button id="chef_button" class="character-button">Шеф</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+            <button id="cosmonaut_button" class="character-button">Космонавт</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/boxer.jpg');"></div>
+            <button id="boxer_button" class="character-button">Боксер</button>
+        </div>
+        <div class="pair-container">
+            <div class="character-icon" style="background-image: url('img/sheriff.jpg');"></div>
+            <button id="sheriff_button" class="character-button">Шериф</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="king_button" class="character-button">Король</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="egypt_button" class="character-button">Египет</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="hacker_button" class="character-button">Хакер</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="racer_button" class="character-button">Гонщик</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="mafia_boss_button" class="character-button">Босс мафии</button>
+        </div>
+        <div class="pair-container">
+             <div class="character-icon" style="background-image: url('img/mario.jpg');"></div>
+             <button id="footballer_button" class="character-button">Футболист</button>
+        </div>
     </div>
 </body>
 <script>
-   let tg = window.Telegram.WebApp;
-   let mario = document.getElementById("mario_button")
-   let albert = document.getElementById("albert_button")
+
+let tg = window.Telegram.WebApp;
+   let characterButton = document.getElementById("character_button");
    tg.expand();
 
-   mario.addEventListener("click", () =>{
-       tg.sendData("mario_gpt");
+   characterButton.addEventListener("click", () =>{
+       tg.sendData("memes_gpt");
        tg.close();
    });
 
-   albert.addEventListener("click", () =>{
-       tg.sendData("albert_gpt");
+   // Добавим обработчики событий для остальных персонажей
+   document.getElementById("spy_button").addEventListener("click", () =>{
+       tg.sendData("spy_gpt");
        tg.close();
    });
 
+   document.getElementById("pirate_button").addEventListener("click", () =>{
+       tg.sendData("pirate_gpt");
+       tg.close();
+   });
+
+   document.getElementById("chef_button").addEventListener("click", () =>{
+       tg.sendData("chef_gpt");
+       tg.close();
+   });
+
+   document.getElementById("cosmonaut_button").addEventListener("click", () =>{
+       tg.sendData("cosmonaut_gpt");
+       tg.close();
+   });
+
+   document.getElementById("boxer_button").addEventListener("click", () =>{
+       tg.sendData("boxer_gpt");
+       tg.close();
+   });
+
+   document.getElementById("sheriff_button").addEventListener("click", () =>{
+       tg.sendData("sheriff_gpt");
+       tg.close();
+   });
+
+   document.getElementById("king_button").addEventListener("click", () =>{
+       tg.sendData("king_gpt");
+       tg.close();
+   });
+
+   document.getElementById("egypt_button").addEventListener("click", () =>{
+       tg.sendData("egypt_gpt");
+       tg.close();
+   });
+
+   document.getElementById("hacker_button").addEventListener("click", () =>{
+       tg.sendData("hacker_gpt");
+       tg.close();
+   });
+
+   document.getElementById("racer_button").addEventListener("click", () =>{
+       tg.sendData("racer_gpt");
+       tg.close();
+   });
+
+   document.getElementById("mafia_boss_button").addEventListener("click", () =>{
+       tg.sendData("mafia_boss_gpt");
+       tg.close();
+   });
+
+   document.getElementById("footballer_button").addEventListener("click", () =>{
+       tg.sendData("footballer_gpt");
+       tg.close();
+   });
 </script>
 </html>
+
+
+
+
