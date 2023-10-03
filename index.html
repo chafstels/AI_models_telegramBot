@@ -18,7 +18,7 @@
 
         @font-face {
             font-family: 'SF Pro'; /* Название шрифта */
-            src: url('fonts/SFProText-Regular.ttf') format('truetype'); /* Укажите правильный путь к вашему файлу шрифта и формат */
+            src: url('fonts/SFProText-Bold.ttf') format('truetype'); /* Укажите правильный путь к вашему файлу шрифта и формат */
             /* Добавьте другие форматы, если у вас есть файлы других форматов (например, .woff2) */
         }
 
@@ -34,19 +34,20 @@
 
         /* Стиль иконки персонажа */
         .character-icon {
-            width: 150px;
-            height: 150px;
+            width: 383px;
+            height: 383px;
             margin-top: 25px;
             margin-left: 8px;
             padding-top: 14%;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            box-shadow: 0 15px 15px #00000029;
-            border: 1px solid #27A7E7;
-            border-radius: 15px;
+            box-shadow: 0px 15px 15px #00000029;
+            border: 3px solid #27A7E7;
+            border-radius: 50px;
             opacity: 1;
             backdrop-filter: blur(50px);
+            -webkit-backdrop-filter: blur(50px);
             cursor: pointer; /* Добавляем указатель при наведении для обозначения кликабельности */
         }
 
@@ -55,13 +56,12 @@
             text-align: center;
             font-family: 'SF Pro', sans-serif; /* Используем шрифт 'SF Pro', и если его нет, используем sans-serif */
             font-weight: bold;
-            font-size: 27px; /* Можно задать размер шрифта напрямую, так как мы подключили шрифт 'SF Pro' */
-            line-height: 38px; /* Задаем высоту строки, если нужно */
+            font-size: 58px; /* Можно задать размер шрифта напрямую, так как мы подключили шрифт 'SF Pro' */
+            line-height: 58px; /* Задаем высоту строки, если нужно */
             letter-spacing: 0px;
             color: #27A7E7;
             text-shadow: 0px 5px 5px #00000029;
             opacity: 1;
-            overflow: hidden;
             white-space: nowrap;
             max-width: 100%; /* Максимальная ширина текста */
             height: auto; /* Высота автоматически подстраивается под содержимое */
