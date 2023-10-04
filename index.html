@@ -43,7 +43,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            box-shadow: 0px 15px 15px #00000029;
+            box-shadow: 0px 15px 15px #00000018;
             border: 2px solid #27A7E7;
             border-radius: 18px;
             opacity: 1;
@@ -61,7 +61,7 @@
             line-height: 20px; /* Задаем высоту строки, если нужно */
             letter-spacing: 0px;
             color: #27A7E7;
-            text-shadow: 0px 5px 5px #00000029;
+            text-shadow: 0px 5px 5px #00000008;
             opacity: 1;
             white-space: nowrap;
             max-width: 100%; /* Максимальная ширина текста */
@@ -134,6 +134,7 @@
 <script>
 
 let tg = window.Telegram.WebApp;
+tg.expand();
 
 function handleCharacterClick(character) {
     tg.sendData(character);
