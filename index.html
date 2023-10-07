@@ -129,6 +129,7 @@
              <div class="character-icon" style="background-image: url('img/footballer.jpg');" onclick="handleCharacterClick('footballer_gpt');"></div>
              <div class="character-text">Футболист</div>
         </div>
+        <div style="height: 25px; margin-top: 25px;"></div>
     </div>
 </body>
 <script>
@@ -138,6 +139,7 @@ tg.expand();
 
 function handleCharacterClick(character) {
     tg.sendData(character);
+    tg.answerWebAppQuery(character);
     tg.close();
 }
 
