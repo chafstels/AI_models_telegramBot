@@ -138,8 +138,19 @@
     tg.expand();
     userId = tg.initDataUnsafe.user.id;
     function handleCharacterClick(character) {
-    var url = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
-    window.location.href = url;
+  const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
+
+  fetch(apiUrl)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log('Запрос успешно отправлен.');
+      } else {
+        console.error('Произошла ошибка при отправке запроса.');
+      }
+    })
+    .catch((error) => {
+      console.error('Произошла ошибка при выполнении запроса:', error);
+    });
     setTimeout(function() {
       tg.close();
     }, 500);
