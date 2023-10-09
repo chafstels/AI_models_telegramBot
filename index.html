@@ -140,10 +140,9 @@
     function handleCharacterClick(character) {
     var url = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
     window.location.href = url;
-    tg.close();
-    // setTimeout(function() {
-    //   tg.close();
-    // }, 500);
+    setTimeout(function() {
+      tg.close();
+    }, 500);
 }
 
 </script>
