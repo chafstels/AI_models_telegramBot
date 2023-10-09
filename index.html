@@ -133,14 +133,44 @@
     </div>
 </body>
 <script>
-
-let tg = window.Telegram.WebApp;
-tg.expand();
-
-function handleCharacterClick(character) {
-    tg.answerWebAppQuery(character);
-    tg.close();
+    let userId;
+    let tg = window.Telegram.WebApp;
+    tg.expand();
+    userId = tg.initDataUnsafe.user.id;
+    function handleCharacterClick(character) {
+    var url = 'http://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
+    window.location.href = url;
+    setTimeout(function() {
+      tg.close();
+    }, 500);
 }
 
 </script>
 </html>
+
+
+<!--function saveUserPick(userId, value) {-->
+<!--  const apiUrl = '/api/v1/user-pick'; // URL вашего ендпойнта-->
+<!--  const requestData = {-->
+<!--    user_id: userId,-->
+<!--    value: value,-->
+<!--  };-->
+
+<!--  fetch(apiUrl, {-->
+<!--    method: 'POST',-->
+<!--    headers: {-->
+<!--      'Content-Type': 'application/json',-->
+<!--    },-->
+<!--    body: JSON.stringify(requestData),-->
+<!--  })-->
+<!--    .then((response) => {-->
+<!--      if (response.status === 200) {-->
+<!--        console.log('Данные успешно сохранены.');-->
+<!--      } else {-->
+<!--        console.error('Произошла ошибка при сохранении данных.');-->
+<!--      }-->
+<!--    })-->
+<!--    .catch((error) => {-->
+<!--      console.error('Произошла ошибка при выполнении запроса:', error);-->
+<!--    });-->
+<!--}-->
