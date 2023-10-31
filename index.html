@@ -134,70 +134,68 @@
 </body>
 <script>
     let userId;
-    let tg = winlet userId;
-let tg = window.Telegram.WebApp;
-let lastMessageId;
+    let tg = window.Telegram.WebApp;
+    let lastMessageId;
 
-tg.expand();
-userId = tg.initDataUnsafe.user.id;
+    tg.expand();
+    userId = tg.initDataUnsafe.user.id;
 
-function handleCharacterClick(character) {
-    const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
+    function handleCharacterClick(character) {
+        const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
 
-    fetch(apiUrl)
-        .then((response) => {
-            if (response.status === 200) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', apiUrl);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 console.log('Запрос успешно отправлен.');
-            } else {
+
+                // Удаляем предыдущее сообщение, если есть lastMessageId
+                if (lastMessageId) {
+                    const botToken = 'YOUR_BOT_TOKEN';
+                    const emptyMessageText = ''; // Пустой текст сообщения для "удаления"
+                    const editMessageUrl = `https://api.telegram.org/bot${botToken}/editMessageText?chat_id=${userId}&message_id=${lastMessageId}&text=${emptyMessageText}`;
+
+                    const editXhr = new XMLHttpRequest();
+                    editXhr.open('GET', editMessageUrl);
+                    editXhr.onreadystatechange = function () {
+                        if (editXhr.readyState === 4 && editXhr.status === 200) {
+                            console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
+                        } else if (editXhr.readyState === 4 && editXhr.status !== 200) {
+                            console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
+                        }
+                    };
+                    editXhr.send();
+                }
+
+                // Дополнительный запрос к API Telegram для отправки сообщения пользователю
+                const botToken = 'YOUR_BOT_TOKEN';
+                const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
+                const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
+
+                const sendXhr = new XMLHttpRequest();
+                sendXhr.open('GET', telegramApiUrl);
+                sendXhr.onreadystatechange = function () {
+                    if (sendXhr.readyState === 4 && sendXhr.status === 200) {
+                        console.log('Сообщение отправлено в Telegram.');
+                        // Получаем ID отправленного сообщения
+                        const responseJson = JSON.parse(sendXhr.responseText);
+                        lastMessageId = responseJson.result.message_id;
+                    } else if (sendXhr.readyState === 4 && sendXhr.status !== 200) {
+                        console.error('Произошла ошибка при отправке сообщения в Telegram.');
+                    }
+                };
+                sendXhr.send();
+            } else if (xhr.readyState === 4 && xhr.status !== 200) {
                 console.error('Произошла ошибка при отправке запроса.');
             }
-        })
-        .catch((error) => {
-            console.error('Произошла ошибка при выполнении запроса:', error);
-        });
+        };
+        xhr.send();
 
-    // Удаляем предыдущее сообщение, если есть lastMessageId
-    if (lastMessageId) {
-        const botToken = 'YOUR_BOT_TOKEN';
-        const emptyMessageText = ''; // Пустой текст сообщения для "удаления"
-        const editMessageUrl = `https://api.telegram.org/bot${botToken}/editMessageText?chat_id=${userId}&message_id=${lastMessageId}&text=${emptyMessageText}`;
-        fetch(editMessageUrl)
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
-                } else {
-                    console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
-                }
-            })
-            .catch((error) => {
-                console.error('Произошла ошибка при выполнении запроса:', error);
-            });
+        // Закрыть web-app
+        setTimeout(function () {
+            tg.close();
+        }, 500);
     }
-
-    // Дополнительный запрос к API Telegram для отправки сообщения пользователю
-    const botToken = 'YOUR_BOT_TOKEN';
-    const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
-    const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
-
-    fetch(telegramApiUrl)
-        .then((response) => {
-            if (response.status === 200) {
-                console.log('Сообщение отправлено в Telegram.');
-                response.json().then(data => {
-                    lastMessageId = data.message_id;
-                });
-            } else {
-                console.error('Произошла ошибка при отправке сообщения в Telegram.');
-            }
-        })
-        .catch((error) => {
-            console.error('Произошла ошибка при выполнении запроса:', error);
-        });
-
-    setTimeout(function() {
-        tg.close();
-    }, 500);
-}
 
 
 
