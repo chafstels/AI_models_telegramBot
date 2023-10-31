@@ -138,50 +138,65 @@
     tg.expand();
     userId = tg.initDataUnsafe.user.id;
     function handleCharacterClick(character) {
-  const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
+        const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
 
-  fetch(apiUrl)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('Запрос успешно отправлен.');
-      } else {
-        console.error('Произошла ошибка при отправке запроса.');
-      }
-    })
-    .catch((error) => {
-      console.error('Произошла ошибка при выполнении запроса:', error);
-    });
-    setTimeout(function() {
-      tg.close();
-    }, 500);
-}
+        fetch(apiUrl)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log('Запрос успешно отправлен.');
+                } else {
+                    console.error('Произошла ошибка при отправке запроса.');
+                }
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка при выполнении запроса:', error);
+            });
 
+        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+        const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
+        const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
+
+        fetch(telegramApiUrl)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log('Сообщение отправлено в Telegram.');
+                } else {
+                    console.error('Произошла ошибка при отправке сообщения в Telegram.');
+                }
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка при выполнении запроса:', error);
+            });
+
+        setTimeout(function() {
+            tg.close();
+        }, 500);
+    }
 </script>
+
 </html>
 
 
-<!--function saveUserPick(userId, value) {-->
-<!--  const apiUrl = '/api/v1/user-pick'; // URL вашего ендпойнта-->
-<!--  const requestData = {-->
-<!--    user_id: userId,-->
-<!--    value: value,-->
-<!--  };-->
+<!--<script>-->
+<!--    let userId;-->
+<!--    let tg = window.Telegram.WebApp;-->
+<!--    tg.expand();-->
+<!--    userId = tg.initDataUnsafe.user.id;-->
+<!--    function handleCharacterClick(character) {-->
+<!--  const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);-->
 
-<!--  fetch(apiUrl, {-->
-<!--    method: 'POST',-->
-<!--    headers: {-->
-<!--      'Content-Type': 'application/json',-->
-<!--    },-->
-<!--    body: JSON.stringify(requestData),-->
-<!--  })-->
+<!--  fetch(apiUrl)-->
 <!--    .then((response) => {-->
 <!--      if (response.status === 200) {-->
-<!--        console.log('Данные успешно сохранены.');-->
+<!--        console.log('Запрос успешно отправлен.');-->
 <!--      } else {-->
-<!--        console.error('Произошла ошибка при сохранении данных.');-->
+<!--        console.error('Произошла ошибка при отправке запроса.');-->
 <!--      }-->
 <!--    })-->
 <!--    .catch((error) => {-->
 <!--      console.error('Произошла ошибка при выполнении запроса:', error);-->
 <!--    });-->
+<!--    setTimeout(function() {-->
+<!--      tg.close();-->
+<!--    }, 500);-->
 <!--}-->
