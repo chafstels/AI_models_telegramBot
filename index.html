@@ -155,8 +155,25 @@
                 console.error('Произошла ошибка при выполнении запроса:', error);
             });
 
+        // Удаляем предыдущее сообщение, если есть lastMessageId
+        if (lastMessageId) {
+            const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+            const deleteMessageUrl = `https://api.telegram.org/bot${botToken}/deleteMessage?chat_id=${userId}&message_id=${lastMessageId}`;
+            fetch(deleteMessageUrl)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
+                    } else {
+                        console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Произошла ошибка при выполнении запроса:', error);
+                });
+        }
+
         // Дополнительный запрос к API Telegram для отправки сообщения пользователю
-        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+        const botToken = 'YOUR_BOT_TOKEN';
         const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
         const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
 
@@ -176,25 +193,12 @@
                 console.error('Произошла ошибка при выполнении запроса:', error);
             });
 
+        // Закрываем веб-апп
         setTimeout(function() {
-            // Удаляем предыдущее сообщение, если есть lastMessageId
-            if (lastMessageId) {
-                const deleteMessageUrl = `https://api.telegram.org/bot${botToken}/deleteMessage?chat_id=${userId}&message_id=${lastMessageId}`;
-                fetch(deleteMessageUrl)
-                    .then((response) => {
-                        if (response.status === 200) {
-                            console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
-                        } else {
-                            console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('Произошла ошибка при выполнении запроса:', error);
-                    });
-            }
             tg.close();
         }, 500);
     }
+
 
 </script>
 
