@@ -134,9 +134,11 @@
 </body>
 <script>
     let userId;
+    let lastMessageId;
     let tg = window.Telegram.WebApp;
     tg.expand();
     userId = tg.initDataUnsafe.user.id;
+
     function handleCharacterClick(character) {
         const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
 
@@ -152,6 +154,7 @@
                 console.error('Произошла ошибка при выполнении запроса:', error);
             });
 
+        // Дополнительный запрос к API Telegram для отправки сообщения пользователю
         const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
         const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
         const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
@@ -160,19 +163,44 @@
             .then((response) => {
                 if (response.status === 200) {
                     console.log('Сообщение отправлено в Telegram.');
+                    // Сохраняем message_id отправленного сообщения
+                    return response.json();
                 } else {
                     console.error('Произошла ошибка при отправке сообщения в Telegram.');
+                }
+            })
+            .then((data) => {
+                if (data && data.result && data.result.message_id) {
+                    lastMessageId = data.result.message_id;
+                    console.log(`Сообщение ID: ${lastMessageId}`);
                 }
             })
             .catch((error) => {
                 console.error('Произошла ошибка при выполнении запроса:', error);
             });
 
+        // Удаляем предыдущее сообщение, если есть lastMessageId
+        if (lastMessageId) {
+            const deleteMessageUrl = `https://api.telegram.org/bot${botToken}/deleteMessage?chat_id=${userId}&message_id=${lastMessageId}`;
+            fetch(deleteMessageUrl)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
+                    } else {
+                        console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Произошла ошибка при выполнении запроса:', error);
+                });
+        }
+
         setTimeout(function() {
             tg.close();
         }, 500);
     }
 </script>
+
 
 </html>
 
@@ -183,20 +211,38 @@
 <!--    tg.expand();-->
 <!--    userId = tg.initDataUnsafe.user.id;-->
 <!--    function handleCharacterClick(character) {-->
-<!--  const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);-->
+<!--        const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);-->
 
-<!--  fetch(apiUrl)-->
-<!--    .then((response) => {-->
-<!--      if (response.status === 200) {-->
-<!--        console.log('Запрос успешно отправлен.');-->
-<!--      } else {-->
-<!--        console.error('Произошла ошибка при отправке запроса.');-->
-<!--      }-->
-<!--    })-->
-<!--    .catch((error) => {-->
-<!--      console.error('Произошла ошибка при выполнении запроса:', error);-->
-<!--    });-->
-<!--    setTimeout(function() {-->
-<!--      tg.close();-->
-<!--    }, 500);-->
-<!--}-->
+<!--        fetch(apiUrl)-->
+<!--            .then((response) => {-->
+<!--                if (response.status === 200) {-->
+<!--                    console.log('Запрос успешно отправлен.');-->
+<!--                } else {-->
+<!--                    console.error('Произошла ошибка при отправке запроса.');-->
+<!--                }-->
+<!--            })-->
+<!--            .catch((error) => {-->
+<!--                console.error('Произошла ошибка при выполнении запроса:', error);-->
+<!--            });-->
+
+<!--        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';-->
+<!--        const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;-->
+<!--        const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;-->
+
+<!--        fetch(telegramApiUrl)-->
+<!--            .then((response) => {-->
+<!--                if (response.status === 200) {-->
+<!--                    console.log('Сообщение отправлено в Telegram.');-->
+<!--                } else {-->
+<!--                    console.error('Произошла ошибка при отправке сообщения в Telegram.');-->
+<!--                }-->
+<!--            })-->
+<!--            .catch((error) => {-->
+<!--                console.error('Произошла ошибка при выполнении запроса:', error);-->
+<!--            });-->
+
+<!--        setTimeout(function() {-->
+<!--            tg.close();-->
+<!--        }, 500);-->
+<!--    }-->
+<!--</script>-->
