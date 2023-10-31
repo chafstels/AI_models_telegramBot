@@ -179,23 +179,21 @@
                 console.error('Произошла ошибка при выполнении запроса:', error);
             });
 
-        // Удаляем предыдущее сообщение, если есть lastMessageId
-        if (lastMessageId) {
-            const deleteMessageUrl = `https://api.telegram.org/bot${botToken}/deleteMessage?chat_id=${userId}&message_id=${lastMessageId}`;
-            fetch(deleteMessageUrl)
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
-                    } else {
-                        console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Произошла ошибка при выполнении запроса:', error);
-                });
-        }
-
         setTimeout(function() {
+            if (lastMessageId) {
+                const deleteMessageUrl = `https://api.telegram.org/bot${botToken}/deleteMessage?chat_id=${userId}&message_id=${lastMessageId}`;
+                fetch(deleteMessageUrl)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            console.log(`Сообщение ID ${lastMessageId} успешно удалено.`);
+                        } else {
+                            console.error(`Произошла ошибка при удалении сообщения ID ${lastMessageId}`);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Произошла ошибка при выполнении запроса:', error);
+                    });
+            }
             tg.close();
         }, 500);
     }
