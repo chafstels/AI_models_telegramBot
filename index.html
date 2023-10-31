@@ -134,8 +134,9 @@
 </body>
 <script>
     let userId;
-    let lastMessageId;
     let tg = window.Telegram.WebApp;
+    let lastMessageId; // Переменная для хранения message_id предыдущего сообщения
+
     tg.expand();
     userId = tg.initDataUnsafe.user.id;
 
@@ -163,16 +164,12 @@
             .then((response) => {
                 if (response.status === 200) {
                     console.log('Сообщение отправлено в Telegram.');
-                    // Сохраняем message_id отправленного сообщения
-                    return response.json();
+                    // Сохраняем message_id текущего сообщения в lastMessageId
+                    response.json().then(data => {
+                        lastMessageId = data.message_id;
+                    });
                 } else {
                     console.error('Произошла ошибка при отправке сообщения в Telegram.');
-                }
-            })
-            .then((data) => {
-                if (data && data.result && data.result.message_id) {
-                    lastMessageId = data.result.message_id;
-                    console.log(`Сообщение ID: ${lastMessageId}`);
                 }
             })
             .catch((error) => {
@@ -180,6 +177,7 @@
             });
 
         setTimeout(function() {
+            // Удаляем предыдущее сообщение, если есть lastMessageId
             if (lastMessageId) {
                 const deleteMessageUrl = `https://api.telegram.org/bot${botToken}/deleteMessage?chat_id=${userId}&message_id=${lastMessageId}`;
                 fetch(deleteMessageUrl)
@@ -197,6 +195,7 @@
             tg.close();
         }, 500);
     }
+
 </script>
 
 
