@@ -133,56 +133,57 @@
     </div>
 </body>
 <script>
-    let userId;
-    let tg = window.Telegram.WebApp;
-    let lastMessageId; // Переменная для хранения message_id предыдущего сообщения
+let userId;
+let tg = window.Telegram.WebApp;
+let lastMessageId; // Переменная для хранения message_id предыдущего сообщения
 
-    tg.expand();
-    userId = tg.initDataUnsafe.user.id;
+tg.expand();
+userId = tg.initDataUnsafe.user.id;
 
-    function handleCharacterClick(character) {
-        // Создаем сообщение, которое будет изменяться
-        const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
+function handleCharacterClick(character) {
+    // Создаем сообщение, которое будет изменяться
+    const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
 
-        // Проверяем, есть ли предыдущее сообщение для изменения
-        if (lastMessageId) {
-            // Используем метод editMessageText для обновления текста сообщения
-            const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
-            const editMessageUrl = `https://api.telegram.org/bot${botToken}/editMessageText?chat_id=${userId}&message_id=${lastMessageId}&text=${messageText}`;
+    // Проверяем, есть ли предыдущее сообщение для изменения
+    if (lastMessageId) {
+        // Используем метод editMessageText для обновления текста сообщения
+        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+        const editMessageUrl = `https://api.telegram.org/bot${botToken}/editMessageText?chat_id=${userId}&message_id=${lastMessageId}&text=${messageText}&parse_mode=HTML&disable_web_page_preview=true`;
 
-            fetch(editMessageUrl)
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log(`Сообщение ID ${lastMessageId} успешно обновлено.`);
-                    } else {
-                        console.error(`Произошла ошибка при обновлении сообщения ID ${lastMessageId}`);
-                    }
-                })
-                .catch((error) => {
-                    console.error('Произошла ошибка при выполнении запроса:', error);
-                });
-        } else {
-            // Если нет предыдущего сообщения, создаем новое
-            const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
-            const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
+        fetch(editMessageUrl)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log(`Сообщение ID ${lastMessageId} успешно обновлено.`);
+                } else {
+                    console.error(`Произошла ошибка при обновлении сообщения ID ${lastMessageId}`);
+                }
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка при выполнении запроса:', error);
+            });
+    } else {
+        // Если нет предыдущего сообщения, создаем новое
+        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+        const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}&parse_mode=HTML&disable_web_page_preview=true`;
 
-            fetch(telegramApiUrl)
-                .then((response) => {
-                    if (response.status === 200) {
-                        console.log('Сообщение отправлено в Telegram.');
-                        // Сохраняем message_id текущего сообщения в lastMessageId
-                        response.json().then(data => {
-                            lastMessageId = data.message_id;
-                        });
-                    } else {
-                        console.error('Произошла ошибка при отправке сообщения в Telegram.');
-                    }
-                })
-                .catch((error) => {
-                    console.error('Произошла ошибка при выполнении запроса:', error);
-                });
-        }
+        fetch(telegramApiUrl)
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log('Сообщение отправлено в Telegram.');
+                    // Сохраняем message_id текущего сообщения в lastMessageId
+                    response.json().then(data => {
+                        lastMessageId = data.message_id;
+                    });
+                } else {
+                    console.error('Произошла ошибка при отправке сообщения в Telegram.');
+                }
+            })
+            .catch((error) => {
+                console.error('Произошла ошибка при выполнении запроса:', error);
+            });
     }
+}
+
 
 </script>
 
