@@ -141,44 +141,47 @@
     userId = tg.initDataUnsafe.user.id;
 
     function handleCharacterClick(character) {
-        const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);
-
-        fetch(apiUrl)
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log('Запрос успешно отправлен.');
-                } else {
-                    console.error('Произошла ошибка при отправке запроса.');
-                }
-            })
-            .catch((error) => {
-                console.error('Произошла ошибка при выполнении запроса:', error);
-            });
-
-        // Дополнительный запрос к API Telegram для отправки сообщения пользователю
-        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+        // Создаем сообщение, которое будет изменяться
         const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;
-        const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
 
-        fetch(telegramApiUrl)
-            .then((response) => {
-                if (response.status === 200) {
-                    console.log('Сообщение отправлено в Telegram.');
-                    // Сохраняем message_id текущего сообщения в lastMessageId
-                    response.json().then(data => {
-                        lastMessageId = data.message_id;
-                    });
-                } else {
-                    console.error('Произошла ошибка при отправке сообщения в Telegram.');
-                }
-            })
-            .catch((error) => {
-                console.error('Произошла ошибка при выполнении запроса:', error);
-            });
+        // Проверяем, есть ли предыдущее сообщение для изменения
+        if (lastMessageId) {
+            // Используем метод editMessageText для обновления текста сообщения
+            const botToken = 'YOUR_BOT_TOKEN';
+            const editMessageUrl = `https://api.telegram.org/bot${botToken}/editMessageText?chat_id=${userId}&message_id=${lastMessageId}&text=${messageText}`;
 
-        setTimeout(function() {
-            tg.close();
-        }, 500);
+            fetch(editMessageUrl)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log(`Сообщение ID ${lastMessageId} успешно обновлено.`);
+                    } else {
+                        console.error(`Произошла ошибка при обновлении сообщения ID ${lastMessageId}`);
+                    }
+                })
+                .catch((error) => {
+                    console.error('Произошла ошибка при выполнении запроса:', error);
+                });
+        } else {
+            // Если нет предыдущего сообщения, создаем новое
+            const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
+            const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;
+
+            fetch(telegramApiUrl)
+                .then((response) => {
+                    if (response.status === 200) {
+                        console.log('Сообщение отправлено в Telegram.');
+                        // Сохраняем message_id текущего сообщения в lastMessageId
+                        response.json().then(data => {
+                            lastMessageId = data.message_id;
+                        });
+                    } else {
+                        console.error('Произошла ошибка при отправке сообщения в Telegram.');
+                    }
+                })
+                .catch((error) => {
+                    console.error('Произошла ошибка при выполнении запроса:', error);
+                });
+        }
     }
 
 </script>
@@ -186,12 +189,13 @@
 
 </html>
 
-
-<!--<script>-->
-<!--    let userId;-->
+<!-- let userId;-->
 <!--    let tg = window.Telegram.WebApp;-->
+<!--    let lastMessageId; // Переменная для хранения message_id предыдущего сообщения-->
+
 <!--    tg.expand();-->
 <!--    userId = tg.initDataUnsafe.user.id;-->
+
 <!--    function handleCharacterClick(character) {-->
 <!--        const apiUrl = 'https://stickers.mindfusion.app/user-pick?user_id=' + encodeURIComponent(userId) + '&value=' + encodeURIComponent(character);-->
 
@@ -207,6 +211,7 @@
 <!--                console.error('Произошла ошибка при выполнении запроса:', error);-->
 <!--            });-->
 
+<!--        // Дополнительный запрос к API Telegram для отправки сообщения пользователю-->
 <!--        const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';-->
 <!--        const messageText = `Вы выбрали ${character}, теперь пришлите фотографию: `;-->
 <!--        const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${userId}&text=${messageText}`;-->
@@ -215,6 +220,10 @@
 <!--            .then((response) => {-->
 <!--                if (response.status === 200) {-->
 <!--                    console.log('Сообщение отправлено в Telegram.');-->
+<!--                    // Сохраняем message_id текущего сообщения в lastMessageId-->
+<!--                    response.json().then(data => {-->
+<!--                        lastMessageId = data.message_id;-->
+<!--                    });-->
 <!--                } else {-->
 <!--                    console.error('Произошла ошибка при отправке сообщения в Telegram.');-->
 <!--                }-->
@@ -227,4 +236,3 @@
 <!--            tg.close();-->
 <!--        }, 500);-->
 <!--    }-->
-<!--</script>-->
