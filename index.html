@@ -147,7 +147,7 @@
         // Проверяем, есть ли предыдущее сообщение для изменения
         if (lastMessageId) {
             // Используем метод editMessageText для обновления текста сообщения
-            const botToken = 'YOUR_BOT_TOKEN';
+            const botToken = '6417208671:AAGi7aptuPQ6R7TjN6YAdr-CzbCrWyylPK8';
             const editMessageUrl = `https://api.telegram.org/bot${botToken}/editMessageText?chat_id=${userId}&message_id=${lastMessageId}&text=${messageText}`;
 
             fetch(editMessageUrl)
